@@ -1,0 +1,623 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "source": [
+        "NumPy Basics\n",
+        "NumPy (Numerical Python), el paquete fundamental para la computación científica en Python. Su principal característica es el ndarray, un objeto de arreglo multidimensional rápido y flexible que permite realizar operaciones matemáticas en bloques enteros de datos con una sintaxis similar a la de los escalares.\n",
+        "1. El objeto ndarray\n",
+        "    • Homogeneidad: A diferencia de las listas de Python, todos los elementos de un ndarray deben ser del mismo tipo (dtype).\n",
+        "    • Eficiencia: NumPy almacena los datos en bloques continuos de memoria, lo que permite que algoritmos escritos en C operen sin la sobrecarga de Python, resultando en velocidades de 10 a 100 veces superiores.\n",
+        "    • Creación: Se pueden crear arreglos usando np.array() (desde listas), o funciones como np.zeros(), np.ones() y np.arange().\n",
+        "2. Operaciones y Vectorización\n",
+        "    • Aritmética: Las operaciones entre arreglos del mismo tamaño se aplican elemento a elemento.\n",
+        "    • Broadcasting: Es el proceso por el cual NumPy maneja operaciones entre arreglos de diferentes tamaños.\n",
+        "    • Ufuncs (Funciones Universales): Son funciones que realizan operaciones rápidas elemento a elemento, como np.sqrt(), np.exp() (unarias) o np.add() y np.maximum() (binarias).\n",
+        "3. Indexación y Segmentación (Slicing)\n",
+        "    • Vistas vs. Copias: Una distinción crítica es que los cortes (slices) de arreglos son vistas del arreglo original. Esto significa que cualquier modificación en el corte se reflejará en los datos originales para ahorrar memoria.\n",
+        "    • Indexación Booleana: Permite filtrar datos usando comparaciones vectorizadas (ej. data[names == \"Bob\"]).\n",
+        "    • Fancy Indexing: Se refiere a la indexación mediante arreglos de enteros para seleccionar subconjuntos en un orden específico. A diferencia del slicing, esto siempre crea una copia.\n",
+        "4. Métodos Matemáticos y Estadísticos\n",
+        "NumPy ofrece métodos integrados para procesar estadísticas de todo el arreglo o a lo largo de un eje (axis):\n",
+        "    • Reducciones: sum(), mean(), std() (desviación estándar).\n",
+        "    • Acumulaciones: cumsum() (suma acumulada).\n",
+        "    • Lógica Condicional: np.where(condición, valor_si_true, valor_si_false) es una versión vectorizada de la expresión ternaria de Python.\n",
+        "Ejercicios Prácticos en Python\n",
+        "Elabora los siguientes ejercicios basados en NumPy puedes desarrollarlos en Visual Studio Code o en un Notebook de Google:"
+      ],
+      "metadata": {
+        "id": "ygA4VvbPuCUT"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 1: Creación y Manipulación Básica\n",
+        "Instrucciones: Crea un arreglo de 2 dimensiones (3x4) que contenga números aleatorios de una distribución normal."
+      ],
+      "metadata": {
+        "id": "LpzUstSHuOWX"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np"
+      ],
+      "metadata": {
+        "id": "lan319jC7T4g"
+      },
+      "execution_count": 1,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 3,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "RoG8u4j1t5px",
+        "outputId": "8ff7ef30-2731-4986-90a9-f962294a4759"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Generator(PCG64) at 0x7C889DA4C3C0"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 3
+        }
+      ],
+      "source": [
+        "# 1. Crear el generador aleatorio\n",
+        "rng = np.random.default_rng(seed=42)\n",
+        "rng"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 2. Crear un arreglo 3x4\n",
+        "data = rng.standard_normal((3, 4))\n",
+        "print(\"Arreglo original:\\n\", data)\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "pAJBBy8v7tw_",
+        "outputId": "26d94978-e50a-4ce6-c02a-d33ba308e8a1"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Arreglo original:\n",
+            " [[-0.11394746 -0.84015648 -0.82448122  0.65059279]\n",
+            " [ 0.74325417  0.54315427 -0.66550971  0.23216132]\n",
+            " [ 0.11668581  0.2186886   0.87142878  0.22359555]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 3. Multiplicar todos los elementos por 10 y convertir a enteros (int32)\n",
+        "data_int = (data * 10).astype(np.int32)\n",
+        "print(\"\\nArreglo transformado (int32):\\n\", data_int)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "zkLBw2BF7o2p",
+        "outputId": "037ba5a2-f8e7-4cd1-908d-622f1fa2aa17"
+      },
+      "execution_count": 9,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "Arreglo transformado (int32):\n",
+            " [[-1 -8 -8  6]\n",
+            " [ 7  5 -6  2]\n",
+            " [ 1  2  8  2]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 2: Indexación y Vistas (Slicing)\n",
+        "Instrucciones: Demuestra la diferencia entre una vista y una copia."
+      ],
+      "metadata": {
+        "id": "QqOqwTo_vL6A"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. Crea un arreglo del 0 al 9\n",
+        "arr = np.arange(10)\n",
+        "print(arr)\n",
+        "# 2. Crea un slice de los elementos del índice 5 al 8 y cámbialos a 12\n",
+        "arr_slice = arr[5:8]\n",
+        "arr_slice = 12345\n",
+        "\n",
+        "# 3. Observa el arreglo original\n",
+        "print(\"Arreglo original modificado por el slice:\", arr_slice) # El índice 6 habrá cambiado\n",
+        "\n",
+        "# 4. Ahora haz lo mismo pero usando .copy()\n",
+        "arr_copy = arr[5:8].copy()\n",
+        "arr_copy[:] = 0\n",
+        "print(\"Arreglo original tras modificar una copia:\", arr) # No habrá cambiado\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "EW-9n6MivMQC",
+        "outputId": "f3022ad5-d7c6-4a70-b1fd-7c4fb1668277"
+      },
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[0 1 2 3 4 5 6 7 8 9]\n",
+            "Arreglo original modificado por el slice: 12345\n",
+            "Arreglo original tras modificar una copia: [0 1 2 3 4 5 6 7 8 9]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 3: Indexación Booleana y np.where\n",
+        "Instrucciones: Dado un arreglo de datos, sustituye todos los valores negativos por 0 y los positivos por 1."
+      ],
+      "metadata": {
+        "id": "Egk3dek8vbIi"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "data = rng.standard_normal((4, 4))\n",
+        "print(\"Datos originales:\\n\", data)\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "0xgsHXBYvbca",
+        "outputId": "6217e212-764f-4f40-a2d9-e93b2b7a85ac"
+      },
+      "execution_count": 14,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Datos originales:\n",
+            " [[ 0.67891356  0.06757907  0.2891194   0.63128823]\n",
+            " [-1.45715582 -0.31967122 -0.47037265 -0.63887785]\n",
+            " [-0.27514225  1.49494131 -0.86583112  0.96827835]\n",
+            " [-1.68286977 -0.33488503  0.16275307  0.58622233]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Usando np.where para lógica condicional\n",
+        "resultado = np.where(data > 0, 1, 0)\n",
+        "print(\"\\nDatos binarizados (0 o 1):\\n\", resultado)\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "KYBD00JG9qHY",
+        "outputId": "97c1385a-d394-461b-8237-ab55dec7d33a"
+      },
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "Datos binarizados (0 o 1):\n",
+            " [[1 1 1 1]\n",
+            " [0 0 0 0]\n",
+            " [0 1 0 1]\n",
+            " [0 0 1 1]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Alternativa: Sustituir solo negativos por 0 en el arreglo original\n",
+        "data[data < 0] = 0\n",
+        "print(\"\\nArreglo original filtrado (solo >= 0):\\n\", data)"
+      ],
+      "metadata": {
+        "id": "ykg3_LTF9sLN"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 4: Estadísticas por Ejes\n",
+        "Instrucciones: Crea una matriz de 5x4 y calcula el promedio de cada columna y la suma total de cada fila."
+      ],
+      "metadata": {
+        "id": "iNUR8Bi6vss2"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = rng.standard_normal((5, 4))\n",
+        "\n",
+        "# axis=0 son las columnas (hacia abajo a través de las filas)\n",
+        "print(\"Promedio por columna:\", arr.mean(axis=0))\n",
+        "\n",
+        "# axis=1 son las filas (a través de las columnas)\n",
+        "print(\"Suma por fila:\", arr.sum(axis=1))\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nASH_fRNvtIk",
+        "outputId": "a1c80f9a-3af3-4059-8d09-3b2ece687aa3"
+      },
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Promedio por columna: [ 0.13585455  0.11916348 -0.24388982 -0.31924762]\n",
+            "Suma por fila: [ 0.69349695 -1.74230198  0.41061955  0.0475309  -0.94994244]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 5: Álgebra Lineal Básica\n",
+        "Instrucciones: Realiza una multiplicación de matrices entre una matriz de 2x3 y su transpuesta."
+      ],
+      "metadata": {
+        "id": "1YbsbJkDv0Sx"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = rng.standard_normal((2, 3))\n",
+        "print(\"Esta es la matriz original \\n\" , X)\n",
+        "print(\"Esta es la matriz transpuesta \\n\", X.T)\n",
+        "# Multiplicación de matriz por su transpuesta usando el operador @\n",
+        "\n",
+        "resultado = X @ X.T\n",
+        "print(\"Resultado de X multiplicado por X transpuesta:\\n\", resultado)\n",
+        "\n",
+        "# Alternativa usando np.dot\n",
+        "resultado_dot = np.dot(X, X.T)\n",
+        "print(\"Resultado de X multiplicado por X transpuesta (np.dot):\\n\", resultado_dot)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "LfPMbqMvv0mK",
+        "outputId": "0e2daa08-856d-43c4-f6dd-be396140115b"
+      },
+      "execution_count": 21,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Esta es la matriz original \n",
+            " [[ 0.84030814 -1.72732042  0.43442364]\n",
+            " [ 0.2377356  -0.59414996 -1.44605785]]\n",
+            "Esta es la matriz transpuesta \n",
+            " [[ 0.84030814  0.2377356 ]\n",
+            " [-1.72732042 -0.59414996]\n",
+            " [ 0.43442364 -1.44605785]]\n",
+            "Resultado de X multiplicado por X transpuesta:\n",
+            " [[3.87847751 0.59785679]\n",
+            " [0.59785679 2.5006157 ]]\n",
+            "Resultado de X multiplicado por X transpuesta (np.dot):\n",
+            " [[3.87847751 0.59785679]\n",
+            " [0.59785679 2.5006157 ]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "5 Ejercicios Prácticos Adicionales\n",
+        "\n",
+        "\n",
+        "Ejercicio 6: Creación con Tipos de Datos Específicos\n",
+        "Instrucciones: Crea un arreglo de 3x3 lleno de ceros, pero asegúrate de que el tipo de dato sea entero de 32 bits (int32). Luego, cambia todos los elementos de la diagonal principal a 1."
+      ],
+      "metadata": {
+        "id": "lxKSBl-fwDr5"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import numpy as np"
+      ],
+      "metadata": {
+        "id": "t4lp-byp_yNt"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 1. Crear arreglo 3x3 de ceros int32\n",
+        "arr = np.zeros((3, 3), dtype=np.int32)\n",
+        "print(\"Arreglo con ceros \\n\", arr)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "EQcCVkqx_9Be",
+        "outputId": "fc9ac9c2-960e-4ce3-d0f3-3cce98914eaa"
+      },
+      "execution_count": 22,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Arreglo con ceros \n",
+            " [[0 0 0]\n",
+            " [0 0 0]\n",
+            " [0 0 0]]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# 2. Cambiar la diagonal a 1\n",
+        "arr[[0, 1, 2], [0, 1, 2]] = 1\n",
+        "\n",
+        "print(\"Arreglo con diagonal de unos:\\n\", arr)\n",
+        "print(\"Dtype:\", arr.dtype) # Debe ser int32"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "e7zBZ7PBwEAZ",
+        "outputId": "2fb9d4ce-1d66-4e77-bb58-e9e3f070396c"
+      },
+      "execution_count": 23,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Arreglo con diagonal de unos:\n",
+            " [[1 0 0]\n",
+            " [0 1 0]\n",
+            " [0 0 1]]\n",
+            "Dtype: int32\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 7: Filtrado Lógico Complejo\n",
+        "Instrucciones: Crea un arreglo con los números del 1 al 20. Utiliza indexación booleana para seleccionar solo los números que sean mayores que 10 y que sean pares."
+      ],
+      "metadata": {
+        "id": "03-kfIe3wNEr"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = np.arange(1, 21)\n",
+        "\n",
+        "# Crear la máscara booleana combinando condiciones con &\n",
+        "mask = (arr > 10) & (arr % 2 == 0)\n",
+        "resultado = arr[mask]\n",
+        "\n",
+        "print(\"Números > 10 y pares:\", resultado)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "vQ-Xvqz3wNbT",
+        "outputId": "be6e8280-5746-4ea5-fadd-65f5e9bfb855"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Números > 10 y pares: [12 14 16 18 20]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 8: Transformaciones y Transposición\n",
+        "Instrucciones: Crea un arreglo de 15 elementos (0 a 14) y cámbiale la forma (reshape) a una matriz de 3x5. Luego, obtén su transpuesta y explica qué sucede con la forma."
+      ],
+      "metadata": {
+        "id": "n9AsGeoAwS7C"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "arr = np.arange(15).reshape((3, 5))\n",
+        "print(\"Forma original:\", arr.shape) # (3, 5)\n",
+        "\n",
+        "# Obtener la transpuesta usando el atributo .T\n",
+        "arr_t = arr.T\n",
+        "print(\"Forma de la transpuesta:\", arr_t.shape) # Debe ser (5, 3)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "iO4NlGiXwTOm",
+        "outputId": "6c530197-c13c-4152-b4d7-a4c253737ec0"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Forma original: (3, 5)\n",
+            "Forma de la transpuesta: (5, 3)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 9: Uso de Funciones Universales (ufuncs) Binarias\n",
+        "Instrucciones: Crea dos arreglos de 5 números aleatorios cada uno. Utiliza la función np.maximum para obtener un tercer arreglo que contenga el valor más alto de cada posición comparada."
+      ],
+      "metadata": {
+        "id": "pGpydRLpwYhJ"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "rng = np.random.default_rng(seed=123)\n",
+        "x = rng.standard_normal(5)\n",
+        "y = rng.standard_normal(5)\n",
+        "\n",
+        "# np.maximum compara elemento a elemento\n",
+        "resultado = np.maximum(x, y)\n",
+        "\n",
+        "print(\"X:\", x)\n",
+        "print(\"Y:\", y)\n",
+        "print(\"Máximos elemento a elemento:\", resultado)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "aHV1Ajs2wY4w",
+        "outputId": "8e42817a-2763-4d2b-acc9-d9604dff0994"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "X: [-0.98912135 -0.36778665  1.28792526  0.19397442  0.9202309 ]\n",
+            "Y: [ 0.57710379 -0.63646365  0.54195222 -0.31659545 -0.32238912]\n",
+            "Máximos elemento a elemento: [ 0.57710379 -0.36778665  1.28792526  0.19397442  0.9202309 ]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Ejercicio 10: Valores Únicos y Ordenamiento\n",
+        "Instrucciones: Dado el siguiente arreglo con valores duplicados: ``, utiliza NumPy para obtener un arreglo con los valores únicos ordenados de menor a mayor."
+      ],
+      "metadata": {
+        "id": "zCLHruy4wfU0"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "datos = np.array([100, 12, 30, 4, 34])\n",
+        "\n",
+        "# np.unique devuelve los valores únicos ya ordenados\n",
+        "unicos = np.unique(datos)\n",
+        "\n",
+        "print(\"Valores únicos ordenados:\", unicos)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "SMcLDr8AwfuA",
+        "outputId": "c39ec1cf-dc4d-4c20-f59e-79b17d0a05f7"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Valores únicos ordenados: [  4  12  30  34 100]\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
